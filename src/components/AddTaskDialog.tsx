@@ -14,9 +14,11 @@ interface AddTaskDialogProps {
     email: string;
     example?: File;
   }) => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
-export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
+export const AddTaskDialog = ({ onAdd, open, onOpenChange }: AddTaskDialogProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
@@ -24,7 +26,6 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
   const [example, setExample] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
-  const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +60,9 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
       setEmail("");
       setExample(null);
       setSubmitted(false);
-      setOpen(false);
+      if (onOpenChange) {
+        onOpenChange(false);
+      }
     }, 2000);
   };
 
@@ -71,10 +74,7 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="w-full">Add New Task</Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Add New Automation Task</DialogTitle>

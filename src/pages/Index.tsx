@@ -70,27 +70,28 @@ interface CustomTask {
 const Index = () => {
   const [tasks, setTasks] = useState(DEFAULT_TASKS);
   const [customTasks, setCustomTasks] = useState<CustomTask[]>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleAddTask = (task: CustomTask) => {
     setCustomTasks([...customTasks, task]);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">AI Automation Services</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Streamline your workflow with our AI-powered automation services. From data extraction to
-            processing, we've got you covered.
-          </p>
-        </header>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <header className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">AI Automation Services</h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          Streamline your workflow with our AI-powered automation services. From data extraction to
+          processing, we've got you covered.
+        </p>
+      </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <TaskCard
           title="Add Custom Task"
           description="Have a specific automation need? Add your custom task here and let our AI handle it."
           isNew
-          onAddNew={() => document.querySelector<HTMLButtonElement>('[role="dialog"] button')?.click()}
+          onAddNew={() => setDialogOpen(true)}
         />
         {tasks.map((task, index) => (
           <TaskCard
@@ -114,7 +115,7 @@ const Index = () => {
         ))}
       </div>
 
-      <AddTaskDialog onAdd={handleAddTask} />
+      <AddTaskDialog onAdd={handleAddTask} open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 };

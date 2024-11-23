@@ -62,7 +62,26 @@ This project is built with .
 
 ## How can I deploy this project?
 
+### Option 1: Deploy with Lovable
 Simply open [Lovable](https://lovable.dev/projects/992d3c8d-2217-4972-aedf-b45a3bd5587a) and click on Share -> Publish.
+
+### Option 2: Deploy with Netlify
+
+To deploy this project with Netlify:
+
+1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
+2. Sign up or log in to [Netlify](https://www.netlify.com)
+3. Click "New site from Git"
+4. Select your repository
+5. Configure the build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+6. Add the following environment variables in Netlify's settings:
+   ```
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+7. Click "Deploy site"
 
 ## I want to use a custom domain - is that possible?
 

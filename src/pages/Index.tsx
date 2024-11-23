@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TaskCard } from "@/components/TaskCard";
 import { AddTaskDialog } from "@/components/AddTaskDialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -71,28 +71,39 @@ interface CustomTask {
 
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [customTasks, setCustomTasks] = useState<any[]>([]);
   const { toast } = useToast();
 
-  const handleAddTask = async (task: CustomTask) => {
+  useEffect(() => {
+    fetchCustomTasks();
+  }, []);
+
+  const fetchCustomTasks = async () => {
     try {
-      const { error } = await supabase.from('tasks').insert({
-        title: task.title,
-        description: task.description,
-        submitter_name: task.name,
-        submitter_email: task.email,
-        status: 'pending',
-      });
+      const { data, error } = await supabase
+        .from('tasks')
+        .select('*')
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Task submitted successfully",
-      });
+      setCustomTasks(data || []);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to submit task",
+        description: "Failed to fetch tasks",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleAddTask = async (task: CustomTask) => {
+    try {
+      await fetchCustomTasks(); // Refresh the task list
+      setDialogOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to refresh tasks",
         variant: "destructive",
       });
     }
@@ -115,6 +126,17 @@ const Index = () => {
           isNew
           onAddNew={() => setDialogOpen(true)}
         />
+        {customTasks.map((task) => (
+          <TaskCard
+            key={task.id}
+            title={task.title}
+            description={task.description}
+            isCompleted={task.status === 'completed'}
+            timeSaved={task.time_saved}
+            name={task.submitter_name}
+            email={task.submitter_email}
+          />
+        ))}
         {DEFAULT_TASKS.map((task, index) => (
           <TaskCard
             key={index}

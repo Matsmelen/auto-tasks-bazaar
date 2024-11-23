@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TaskCard } from "@/components/TaskCard";
 import { AddTaskDialog } from "@/components/AddTaskDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 const DEFAULT_TASKS = [
   {
@@ -68,12 +70,32 @@ interface CustomTask {
 }
 
 const Index = () => {
-  const [tasks, setTasks] = useState(DEFAULT_TASKS);
-  const [customTasks, setCustomTasks] = useState<CustomTask[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { toast } = useToast();
 
-  const handleAddTask = (task: CustomTask) => {
-    setCustomTasks([...customTasks, task]);
+  const handleAddTask = async (task: CustomTask) => {
+    try {
+      const { error } = await supabase.from('tasks').insert({
+        title: task.title,
+        description: task.description,
+        submitter_name: task.name,
+        submitter_email: task.email,
+        status: 'pending',
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Task submitted successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit task",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -93,24 +115,13 @@ const Index = () => {
           isNew
           onAddNew={() => setDialogOpen(true)}
         />
-        {tasks.map((task, index) => (
+        {DEFAULT_TASKS.map((task, index) => (
           <TaskCard
             key={index}
             title={task.title}
             description={task.description}
             isCompleted={task.completed}
             timeSaved={task.timeSaved}
-          />
-        ))}
-        {customTasks.map((task, index) => (
-          <TaskCard
-            key={`custom-${index}`}
-            title={task.title}
-            description={task.description}
-            name={task.name}
-            email={task.email}
-            isCompleted={false}
-            timeSaved={2}
           />
         ))}
       </div>

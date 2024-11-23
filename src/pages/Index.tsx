@@ -70,6 +70,12 @@ const Index = () => {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <TaskCard
+            title="Add Custom Task"
+            description="Have a specific automation need? Add your custom task here and let our AI handle it."
+            isNew
+            onAddNew={() => document.querySelector<HTMLButtonElement>('[role="dialog"] button')?.click()}
+          />
           {tasks.map((task, index) => (
             <TaskCard
               key={index}
@@ -86,14 +92,6 @@ const Index = () => {
               isCompleted={false}
             />
           ))}
-          <div className="h-full">
-            <TaskCard
-              title="Add Custom Task"
-              description="Have a specific automation need? Add your custom task here and let our AI handle it."
-              isNew
-              onAddNew={() => document.querySelector<HTMLButtonElement>('[role="dialog"] button')?.click()}
-            />
-          </div>
         </div>
 
         <AddTaskDialog onAdd={handleAddTask} />

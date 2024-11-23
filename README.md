@@ -50,16 +50,6 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
 ## How can I deploy this project?
 
 ### Option 1: Deploy with Lovable
@@ -81,7 +71,8 @@ To deploy this project with Netlify:
    VITE_SUPABASE_URL=your_supabase_project_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
-7. Click "Deploy site"
+7. **Important**: In your Netlify site settings, go to "Build & Deploy" > "Deploy contexts" and make sure the "Production branch" is set to the correct branch name (usually "main" for new repositories, or "master" for older ones)
+8. Click "Deploy site"
 
 ## I want to use a custom domain - is that possible?
 

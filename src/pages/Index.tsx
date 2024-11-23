@@ -61,14 +61,6 @@ const DEFAULT_TASKS = [
   },
 ];
 
-interface CustomTask {
-  title: string;
-  description: string;
-  name: string;
-  email: string;
-  example?: File;
-}
-
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [customTasks, setCustomTasks] = useState<any[]>([]);
@@ -91,19 +83,6 @@ const Index = () => {
       toast({
         title: "Error",
         description: "Failed to fetch tasks",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleAddTask = async (task: CustomTask) => {
-    try {
-      await fetchCustomTasks(); // Refresh the task list
-      setDialogOpen(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to refresh tasks",
         variant: "destructive",
       });
     }
@@ -148,7 +127,7 @@ const Index = () => {
         ))}
       </div>
 
-      <AddTaskDialog onAdd={handleAddTask} open={dialogOpen} onOpenChange={setDialogOpen} />
+      <AddTaskDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 };

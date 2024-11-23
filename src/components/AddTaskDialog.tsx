@@ -8,18 +8,11 @@ import { Label } from "./ui/label";
 import { supabase } from "@/integrations/supabase/client";
 
 interface AddTaskDialogProps {
-  onAdd: (task: { 
-    title: string; 
-    description: string; 
-    name: string; 
-    email: string;
-    example?: File;
-  }) => void;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
-export const AddTaskDialog = ({ onAdd, onOpenChange, open }: AddTaskDialogProps) => {
+export const AddTaskDialog = ({ onOpenChange, open }: AddTaskDialogProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
@@ -71,8 +64,6 @@ export const AddTaskDialog = ({ onAdd, onOpenChange, open }: AddTaskDialogProps)
       });
 
       if (error) throw error;
-
-      onAdd({ title, description, name, email, example: example || undefined });
       
       toast({
         title: "Success",

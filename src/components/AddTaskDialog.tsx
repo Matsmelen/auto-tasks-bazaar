@@ -63,6 +63,13 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
     }, 2000);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setExample(file);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -120,7 +127,7 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
             <Input
               id="example"
               type="file"
-              onChange={(e) => setExample(e.files?.[0] || null)}
+              onChange={handleFileChange}
               className="cursor-pointer"
             />
           </div>

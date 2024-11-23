@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TaskCard } from "@/components/TaskCard";
 import { AddTaskDialog } from "@/components/AddTaskDialog";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 
 const DEFAULT_TASKS = [
@@ -71,7 +70,7 @@ const Index = () => {
         <h1 className="text-4xl font-bold mb-4">AI Automation Services</h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Streamline your workflow with our AI-powered automation services. From data extraction to
-          processing, we've got you covered.
+          processing, we've got you covered. This service is completely free - only pay for the results if you are happy with it!
         </p>
       </header>
 

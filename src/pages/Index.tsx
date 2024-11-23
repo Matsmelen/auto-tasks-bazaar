@@ -7,46 +7,55 @@ const DEFAULT_TASKS = [
     title: "Web Scraping",
     description: "Extract product data from e-commerce websites automatically",
     completed: true,
+    timeSaved: 8,
   },
   {
     title: "PDF to Excel",
     description: "Convert PDF documents into organized Excel spreadsheets",
     completed: true,
+    timeSaved: 4,
   },
   {
     title: "Email Processing",
     description: "Automatically categorize and respond to customer emails",
     completed: true,
+    timeSaved: 6,
   },
   {
     title: "Data Cleaning",
     description: "Clean and standardize data from multiple sources",
     completed: true,
+    timeSaved: 5,
   },
   {
     title: "Image Processing",
     description: "Batch process and optimize images for web use",
     completed: true,
+    timeSaved: 3,
   },
   {
     title: "Report Generation",
     description: "Generate automated reports from database queries",
     completed: true,
+    timeSaved: 7,
   },
   {
     title: "Social Media Analysis",
     description: "Analyze social media metrics and generate insights",
     completed: true,
+    timeSaved: 6,
   },
   {
     title: "Document Classification",
     description: "Automatically categorize documents by content",
     completed: true,
+    timeSaved: 5,
   },
   {
     title: "Data Migration",
     description: "Migrate data between different system formats",
     completed: true,
+    timeSaved: 10,
   },
 ];
 
@@ -82,6 +91,7 @@ const Index = () => {
               title={task.title}
               description={task.description}
               isCompleted={task.completed}
+              timeSaved={task.timeSaved}
             />
           ))}
           {customTasks.map((task, index) => (
@@ -90,6 +100,7 @@ const Index = () => {
               title={task.title}
               description={task.description}
               isCompleted={false}
+              timeSaved={0}
             />
           ))}
         </div>

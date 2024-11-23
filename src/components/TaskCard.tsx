@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { Check, Clock, EuroIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
@@ -8,6 +8,7 @@ interface TaskCardProps {
   isCompleted?: boolean;
   isNew?: boolean;
   onAddNew?: () => void;
+  timeSaved?: number;
 }
 
 export const TaskCard = ({
@@ -16,7 +17,10 @@ export const TaskCard = ({
   isCompleted = false,
   isNew = false,
   onAddNew,
+  timeSaved = 0,
 }: TaskCardProps) => {
+  const price = timeSaved * 12; // 12€ per hour
+
   return (
     <Card className="hover:animate-card-hover transition-all duration-200 h-full flex flex-col">
       <CardHeader>
@@ -30,7 +34,19 @@ export const TaskCard = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="text-gray-600">{description}</p>
+        <p className="text-gray-600 mb-4">{description}</p>
+        {!isNew && (
+          <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-1">
+              <Clock className="w-4 h-4" />
+              <span>{timeSaved}h saved</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <EuroIcon className="w-4 h-4" />
+              <span>{price}€</span>
+            </div>
+          </div>
+        )}
       </CardContent>
       <CardFooter>
         {isCompleted ? (

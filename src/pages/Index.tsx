@@ -100,7 +100,7 @@ const Index = () => {
               title={task.title}
               description={task.description}
               isCompleted={false}
-              timeSaved={0}
+              timeSaved={2} // Default estimation of 2 hours saved for custom tasks
             />
           ))}
         </div>

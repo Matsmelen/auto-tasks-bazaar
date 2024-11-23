@@ -9,6 +9,8 @@ interface TaskCardProps {
   isNew?: boolean;
   onAddNew?: () => void;
   timeSaved?: number;
+  name?: string;
+  email?: string;
 }
 
 export const TaskCard = ({
@@ -17,7 +19,9 @@ export const TaskCard = ({
   isCompleted = false,
   isNew = false,
   onAddNew,
-  timeSaved = 0,
+  timeSaved = 2,
+  name,
+  email,
 }: TaskCardProps) => {
   const price = timeSaved * 12; // 12€ per hour
 
@@ -36,15 +40,23 @@ export const TaskCard = ({
       <CardContent className="flex-grow">
         <p className="text-gray-600 mb-4">{description}</p>
         {!isNew && (
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{timeSaved}h saved</span>
+          <div className="space-y-2">
+            <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span>{timeSaved}h saved</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <EuroIcon className="w-4 h-4" />
+                <span>{price}€</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <EuroIcon className="w-4 h-4" />
-              <span>{price}€</span>
-            </div>
+            {name && email && (
+              <div className="text-sm text-gray-500">
+                <p>Submitted by: {name}</p>
+                <p>Contact: {email}</p>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
@@ -57,7 +69,9 @@ export const TaskCard = ({
           <Button className="w-full" onClick={onAddNew}>
             Add New Task
           </Button>
-        ) : null}
+        ) : (
+          <Button className="w-full">Send Task to AI</Button>
+        )}
       </CardFooter>
     </Card>
   );

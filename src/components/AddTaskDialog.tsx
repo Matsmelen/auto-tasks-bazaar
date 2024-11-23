@@ -4,35 +4,63 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
+import { Label } from "./ui/label";
 
 interface AddTaskDialogProps {
-  onAdd: (task: { title: string; description: string }) => void;
+  onAdd: (task: { 
+    title: string; 
+    description: string; 
+    name: string; 
+    email: string;
+    example?: File;
+  }) => void;
 }
 
 export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [example, setExample] = useState<File | null>(null);
+  const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !description) {
+    if (!title || !description || !name || !email) {
       toast({
         title: "Error",
-        description: "Please fill in all fields",
+        description: "Please fill in all required fields",
         variant: "destructive",
       });
       return;
     }
-    onAdd({ title, description });
-    setTitle("");
-    setDescription("");
-    setOpen(false);
+
+    onAdd({ 
+      title, 
+      description, 
+      name, 
+      email, 
+      example: example || undefined 
+    });
+    
+    setSubmitted(true);
     toast({
       title: "Success",
-      description: "Task added successfully",
+      description: "Thank you, the task has been sent to AI and will be delivered shortly.",
     });
+
+    // Reset form after 2 seconds
+    setTimeout(() => {
+      setTitle("");
+      setDescription("");
+      setName("");
+      setEmail("");
+      setExample(null);
+      setSubmitted(false);
+      setOpen(false);
+    }, 2000);
   };
 
   return (
@@ -40,36 +68,64 @@ export const AddTaskDialog = ({ onAdd }: AddTaskDialogProps) => {
       <DialogTrigger asChild>
         <Button className="w-full">Add New Task</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Add New Automation Task</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="title" className="text-sm font-medium">
-              Task Title
-            </label>
+          <div className="space-y-2">
+            <Label htmlFor="name">Your Name *</Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Your Email *</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="john@example.com"
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="title">Task Title *</Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="E.g., Extract Data from PDF"
+              required
             />
           </div>
-          <div>
-            <label htmlFor="description" className="text-sm font-medium">
-              Task Description
-            </label>
+          <div className="space-y-2">
+            <Label htmlFor="description">Task Description *</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe what you want to automate..."
               rows={4}
+              required
             />
           </div>
-          <Button type="submit" className="w-full">
-            Submit Task
+          <div className="space-y-2">
+            <Label htmlFor="example">Upload Example (Optional)</Label>
+            <Input
+              id="example"
+              type="file"
+              onChange={(e) => setExample(e.files?.[0] || null)}
+              className="cursor-pointer"
+            />
+          </div>
+          <Button type="submit" className="w-full" disabled={submitted}>
+            {submitted ? "Task Sent to AI..." : "Send Task to AI"}
           </Button>
         </form>
       </DialogContent>

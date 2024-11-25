@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Check, Clock, EuroIcon, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { TaskPreviewDialog } from "./TaskPreviewDialog";
 import { Tables } from "@/integrations/supabase/types";
 
 interface TaskCardProps {
+  id?: string;
   title: string;
   description: string;
   isCompleted?: boolean;
@@ -18,6 +20,7 @@ interface TaskCardProps {
 }
 
 export const TaskCard = ({
+  id,
   title,
   description,
   isCompleted = false,
@@ -63,8 +66,8 @@ export const TaskCard = ({
         </CardContent>
         <CardFooter className="flex gap-2">
           {isCompleted ? (
-            <Button className="flex-1 bg-success hover:bg-success/90">
-              Task Completed by Automation AI
+            <Button className="flex-1 bg-success hover:bg-success/90" asChild>
+              <Link to={`/task/${id}`}>View Completed Task</Link>
             </Button>
           ) : isNew ? (
             <Button className="flex-1" onClick={onAddNew}>

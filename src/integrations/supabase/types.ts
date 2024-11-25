@@ -14,7 +14,10 @@ export type Database = {
           created_at: string | null
           description: string
           example_file_url: string | null
+          has_paid: boolean | null
+          has_shared: boolean | null
           id: string
+          output_text: string | null
           status: Database["public"]["Enums"]["task_status"] | null
           submitter_email: string
           submitter_name: string
@@ -26,7 +29,10 @@ export type Database = {
           created_at?: string | null
           description: string
           example_file_url?: string | null
+          has_paid?: boolean | null
+          has_shared?: boolean | null
           id?: string
+          output_text?: string | null
           status?: Database["public"]["Enums"]["task_status"] | null
           submitter_email: string
           submitter_name: string
@@ -38,7 +44,10 @@ export type Database = {
           created_at?: string | null
           description?: string
           example_file_url?: string | null
+          has_paid?: boolean | null
+          has_shared?: boolean | null
           id?: string
+          output_text?: string | null
           status?: Database["public"]["Enums"]["task_status"] | null
           submitter_email?: string
           submitter_name?: string
